@@ -21,12 +21,10 @@ describe('Teste a função fetchProducts', () => {
   });
   test('verifica se retorna erro quando executar a função sem argumento', async() => {
     const withoutParamer = await fetchProducts();
-      // console.log(withoutParamer);
      expect(withoutParamer).toEqual(new Error('You must provide an url'));
   });
 });
 
 
-// Teste se o retorno da função fetchProducts com o argumento 'computador' é uma estrutura de dados igual ao objeto computadorSearch, que já está importado no arquivo.
-// Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: 'You must provide an url'.
+
 
