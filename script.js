@@ -4,7 +4,7 @@
 // const { fetchProducts } = require("./helpers/fetchProducts");
 
 const resultProducts = async () => {
-const getProducts = await fetchProducts();
+const getProducts = await fetchProducts('computador');
 const { results } = getProducts;
 // console.log(results);
 return results;
