@@ -13,9 +13,9 @@ test('verifica se a função é chamada, quando o argumento "MLB1615760527"', as
 test('verifica se foi chamada com o endpoint correto', async() => {
   const urlApiFetchItem = "https://api.mercadolibre.com/items/MLB1615760527"
   await fetchItem("MLB1615760527");
-  expect(fetch).toHaveBeenCalledWith(urlApiFetchItem); // testar após função pronta
+  expect(fetch).toHaveBeenCalledWith(urlApiFetchItem);
 });
-test('verifica se retorno da função quando recebe o argumento "MLB1615760527", tem uma de objeto item que já está importado no arquivo', async() => {
+test('verifica o retorno da função quando recebe o argumento "MLB1615760527", se tem uma estrutura igual ao do objeto da mock importada aqui', async() => {
   const toEqualObject = await fetchItem("MLB1615760527")
 expect(toEqualObject).toEqual(item);
 });
@@ -26,8 +26,4 @@ expect(withoutArgument).toEqual(new Error("You must provide an url"));
 
 });
 
-//Execute a função fetchItem com o argumento do item "MLB1615760527" e teste se fetch foi chamada;
-//Teste se, ao chamar a função fetchItem com o argumento do item "MLB1615760527", a função fetch utiliza o endpoint "https://api.mercadolibre.com/items/MLB1615760527";
-//Teste se o retorno da função fetchItem com o argumento do item "MLB1615760527" é uma estrutura de dados igual ao objeto item que já está importado no arquivo.
-//Teste se, ao chamar a função fetchItem sem argumento, retorna um erro com a mensagem: 'You must provide an url'.
 
