@@ -15,18 +15,15 @@ describe('Teste a função fetchProducts', () => {
     await fetchProducts('computador');
     expect(fetch).toHaveBeenCalledWith(url);
   });
-  /* test('verifica se retorno da função com o argumento computador é uma estrutura de dados igual ao objeto computadorSearch', async () => {
-    await expect(fetchProducts('computador')).resolves.toEqual({
-      "site_id": "MLB",
-      "country_default_time_zone": "GMT-03:00",
-      "query": "computador",
-    });
-  }); */
-  /*test('verifica se retorna erro quando executar a função sem argumento', async() => {
+   test('verifica se retorno da função com o argumento computador é uma estrutura de dados igual ao objeto computadorSearch', async () => {
+    const itemx = await fetchProducts('computador');
+    expect(itemx).toEqual(computadorSearch);
+  });
+  test('verifica se retorna erro quando executar a função sem argumento', async() => {
     const withoutParamer = await fetchProducts();
-     // console.log(withoutParamer);
+      // console.log(withoutParamer);
      expect(withoutParamer).toEqual(new Error('You must provide an url'));
-  });*/
+  });
 });
 
 

@@ -67,7 +67,7 @@ const createItem = async () => {
      getElement.appendChild(createProductItemElement(element));
   });
 };
-createItem();
+
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
@@ -92,4 +92,5 @@ createItem();
 };
 
 window.onload = () => {
+  createItem();
  };

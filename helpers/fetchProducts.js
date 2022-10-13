@@ -5,7 +5,7 @@ const fetchProducts = async (products) => {
     // console.log(responseValue);
     return responseValue;
   } catch (error) {
-    console.log('Error', error);
+    return error;
   }
 };
   // fetchProducts(); 
