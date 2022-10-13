@@ -16,8 +16,8 @@ describe('Teste a função fetchProducts', () => {
     expect(fetch).toHaveBeenCalledWith(url);
   });
    test('verifica se retorno da função com o argumento computador é uma estrutura de dados igual ao objeto computadorSearch', async () => {
-    const itemx = await fetchProducts('computador');
-    expect(itemx).toEqual(computadorSearch);
+    const resultEqual = await fetchProducts('computador');
+    expect(resultEqual).toEqual(computadorSearch);
   });
   test('verifica se retorna erro quando executar a função sem argumento', async() => {
     const withoutParamer = await fetchProducts();
