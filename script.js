@@ -75,7 +75,7 @@ const createItem = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+ // const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -86,7 +86,7 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @returns {Element} Elemento de um item do carrinho.
  */
 
- const buttonRemove = document.querySelector('.empty-cart');
+ // const buttonRemove = document.querySelector('.empty-cart');
  // carShopping.remove(); remove todos os itens do carrinho.
 
 const cartItemClickListener = (event) => {
