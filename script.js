@@ -55,7 +55,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  // console.log(section)
   return section;
 };
 
@@ -65,7 +65,7 @@ const createItem = async () => {
   // console.log(inputElement);
   inputElement.forEach((element) => {
     const inputProduct = createProductItemElement(element);
-    console.log(inputProduct);
+    // console.log(inputProduct);
     getElement.appendChild(inputProduct);
   });
 };
@@ -85,6 +85,8 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+
+const cartItemClickListener = () => {};
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -92,20 +94,27 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
- 
-// O .cart__items deve adicionar o item escolhido, apresentando corretamente suas informações de id, título e preço.
- const addElement = async () => {
-    const getItem = await fetchItem('MLB2187832413');
-  const button = document.querySelector('.cart__items');
-  button.addEventListener('click', () => {
-    if (getItem === createCartItemElement) {
-      button.appendChild(createCartItemElement);
-    }
+
+const carShopping = document.querySelector('.cart__items');// meu carrinho
+
+const addElement = () => {
+  const buttons = document.querySelectorAll('.item__add');// botão adicionar   
+   
+  buttons.forEach((button) => {
+    button.addEventListener('click', async (event) => {
+      const check = event.target.parentNode.firstChild.innerText;
+      console.log(check);
+      const itemList = await fetchItem(check);
+
+      carShopping.appendChild(createCartItemElement(itemList));
+      console.log(itemList);
+    });
   });
 };
+
 // Adicione o elemento retornado da função createCartItemElement(product) como filho do elemento <ol class="cart__items">.
 
-window.onload = () => {
-  createItem();
+window.onload = async () => {
+  await createItem();
   addElement();
 };
