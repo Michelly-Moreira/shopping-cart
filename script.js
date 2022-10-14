@@ -86,33 +86,33 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @returns {Element} Elemento de um item do carrinho.
  */
 
-const cartItemClickListener = () => {};
+ const buttonRemove = document.querySelector('.empty-cart');
+ // carShopping.remove(); remove todos os itens do carrinho.
+
+const cartItemClickListener = (event) => {
+event.target.remove(); // removendo item quando clica no item dentro do carrinho.
+};
+
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
-  return li;
+  return li; 
 };
-
-const carShopping = document.querySelector('.cart__items');// meu carrinho
 
 const addElement = () => {
   const buttons = document.querySelectorAll('.item__add');// botão adicionar   
    
   buttons.forEach((button) => {
     button.addEventListener('click', async (event) => {
-      const check = event.target.parentNode.firstChild.innerText;
-      console.log(check);
-      const itemList = await fetchItem(check);
-
-      carShopping.appendChild(createCartItemElement(itemList));
+      const selectedItem = event.target.parentNode.firstChild.innerText;// alvo no item clicado de acordo com as classes do item
+      const itemList = await fetchItem(selectedItem);// lista que mostra o item de acordo com o id;
+      carShopping.appendChild(createCartItemElement(itemList));// adicionando elemento ao carrinho
       console.log(itemList);
     });
   });
 };
-
-// Adicione o elemento retornado da função createCartItemElement(product) como filho do elemento <ol class="cart__items">.
 
 window.onload = async () => {
   await createItem();
