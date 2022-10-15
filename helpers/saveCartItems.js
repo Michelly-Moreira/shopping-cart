@@ -1,4 +1,4 @@
-const saveCartItems = () => {
+const saveCartItems = ("cartItem") => {
   // seu código aqui
 };
 
