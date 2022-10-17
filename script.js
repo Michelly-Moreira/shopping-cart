@@ -1,10 +1,6 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
-// const { fetchItem } = require("./helpers/fetchItem");
-
-// const { fetchProducts } = require("./helpers/fetchProducts");
-
 const resultProducts = async () => {
   const getProducts = await fetchProducts('computador');
   const { results } = getProducts;
@@ -75,7 +71,7 @@ const createItem = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-  const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+   const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -86,11 +82,11 @@ const createItem = async () => {
  * @returns {Element} Elemento de um item do carrinho.
  */
 
- // const buttonRemove = document.querySelector('.empty-cart');
+  const buttonRemove = document.querySelector('.empty-cart'); // botão esvaziar carrinho
  // carShopping.remove(); remove todos os itens do carrinho.
 
 const cartItemClickListener = (event) => {
-event.target.remove(); // removendo item quando clica no item dentro do carrinho.
+// event.target.remove(); // removendo item quando clica no item dentro do carrinho.
 };
 
 const createCartItemElement = ({ id, title, price }) => {
@@ -101,15 +97,18 @@ const createCartItemElement = ({ id, title, price }) => {
   return li; 
 };
 
+const carShopping = document.querySelector('.cart__items'); // carrinho
+
 const addElement = () => {
   const buttons = document.querySelectorAll('.item__add');// botão adicionar   
    
   buttons.forEach((button) => {
     button.addEventListener('click', async (event) => {
       const selectedItem = event.target.parentNode.firstChild.innerText;// alvo no item clicado de acordo com as classes do item
+      // console.log(selectedItem);
       const itemList = await fetchItem(selectedItem);// lista que mostra o item de acordo com o id;
       carShopping.appendChild(createCartItemElement(itemList));// adicionando elemento ao carrinho
-      console.log(itemList);
+      // console.log(itemList);
     });
   });
 };
