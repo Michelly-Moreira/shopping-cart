@@ -83,10 +83,10 @@ const createItem = async () => {
  */
 
   const buttonRemove = document.querySelector('.empty-cart'); // botão esvaziar carrinho
- // carShopping.remove(); remove todos os itens do carrinho.
+ //carShopping.remove(); // remove todos os itens do carrinho.
 
 const cartItemClickListener = (event) => {
-// event.target.remove(); // removendo item quando clica no item dentro do carrinho.
+event.target.remove(); // removendo item quando clica no item dentro do carrinho.
 };
 
 const createCartItemElement = ({ id, title, price }) => {
@@ -112,6 +112,12 @@ const addElement = () => {
     });
   });
 };
+
+buttonsAdd.forEach((buttonAdd) => {
+  buttonAdd.addEventListener('click', (event) => {
+    const selected = event.target.parentNode.firstChild.innerText;
+    const getElement = document.querySelector('.items');
+  });
 
 window.onload = async () => {
   await createItem();
