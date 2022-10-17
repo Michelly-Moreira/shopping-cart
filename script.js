@@ -1,6 +1,10 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
+// const saveCartItems = require("./helpers/saveCartItems");
+
 const resultProducts = async () => {
   const getProducts = await fetchProducts('computador');
   const { results } = getProducts;
@@ -71,7 +75,7 @@ const createItem = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-   const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -82,44 +86,56 @@ const createItem = async () => {
  * @returns {Element} Elemento de um item do carrinho.
  */
 
-  const buttonRemove = document.querySelector('.empty-cart'); // botão esvaziar carrinho
- //carShopping.remove(); // remove todos os itens do carrinho.
+const buttonRemove = document.querySelector('.empty-cart'); // botão esvaziar carrinho
+// carShopping.remove(); // remove todos os itens do carrinho.
 
 const cartItemClickListener = (event) => {
-event.target.remove(); // removendo item quando clica no item dentro do carrinho.
+  event.target.remove(); // removendo item quando clica no item dentro do carrinho.
 };
+
+const carShopping = document.querySelector('.cart__items'); // carrinho
 
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
-  return li; 
+  // return li; 
+  carShopping.appendChild(li);
+  return { id, title, price };
 };
 
-const carShopping = document.querySelector('.cart__items'); // carrinho
-
 const addElement = () => {
+  savedItem = [];
   const buttons = document.querySelectorAll('.item__add');// botão adicionar   
-   
+
   buttons.forEach((button) => {
     button.addEventListener('click', async (event) => {
       const selectedItem = event.target.parentNode.firstChild.innerText;// alvo no item clicado de acordo com as classes do item
       // console.log(selectedItem);
       const itemList = await fetchItem(selectedItem);// lista que mostra o item de acordo com o id;
-      carShopping.appendChild(createCartItemElement(itemList));// adicionando elemento ao carrinho
-      // console.log(itemList);
+      const itemObject = createCartItemElement(itemList);
+
+      savedItem.push(itemObject);
+      saveCartItems(savedItem);
     });
   });
 };
 
-buttonsAdd.forEach((buttonAdd) => {
-  buttonAdd.addEventListener('click', (event) => {
-    const selected = event.target.parentNode.firstChild.innerText;
-    const getElement = document.querySelector('.items');
-  });
+function savedItensLocalStorage() {
+  if (localStorage.length !== 0) {
+    const getLocalStorage = getSavedCartItems();// recupera o que estiver salvo no localStorage
+    const objItem = JSON.parse(getLocalStorage);
+    objItem.forEach((element) => {
+      createCartItemElement(element);
+    });
+  } else {
+    saveCartItems([]);// facilita de trabalhar com ele, se precisar depois.
+  }
+}
 
 window.onload = async () => {
   await createItem();
   addElement();
+  savedItensLocalStorage();
 };
