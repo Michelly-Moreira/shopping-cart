@@ -12,6 +12,23 @@ const resultProducts = async () => { // chamando uma função assíncrona
 };
 resultProducts();
 
+const totalValue = () => { // soma todos os valores do carrinho
+  const car = document.querySelectorAll('.cart__item');
+  const carP = document.querySelector('.cart__items');
+  
+  const value = document.createElement('span');
+  value.className = 'total-price';
+  let allValue = 0;
+  carP.appendChild(value);
+  
+  car.forEach((oneProduct) => {
+  const itemPrice = Number(oneProduct.innerText.split('$')[1]);
+  allValue += itemPrice;
+  });
+  value.innerHTML = `TOTAL GERAL R$ ${allValue}`;
+  console.log(value);
+  };
+
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -99,6 +116,7 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
 
 const cartItemClickListener = (event) => {
   event.target.remove(); // remove produto quando clica no item dentro do carrinho.
+  totalValue();
 };
 
 const createCartItemElement = ({ id, title, price }) => {
@@ -126,6 +144,8 @@ const addElement = () => {
 
       savedItem.push(itemObject);// salvando o objeto em um Array
       saveCartItems(savedItem);// saveCartItems, está em outro arquivo, salvando no local storage
+
+      totalValue();
     });
   });
 };
@@ -148,17 +168,6 @@ const allRemoveItem = () => { // função remove todos os itens do carrinho.
   }
 };
 buttonRemove.addEventListener('click', (allRemoveItem)); // quando clica no botão esvaziar carrinho, faz o que a função allRemoveItem manda
-
-const totalValue = () => { // QUESITO 9 SOMA TOTAL, NÃO FUNCIONA.
-const car = document.querySelector('.cart__items');
-const value = document.createElement('span');
-value.className = 'total-price';
-let allValue = 0;
-car.forEach((oneProduct) => {
-allValue += oneProduct;
-});
-value.innerText = allValue;
-};
 
 window.onload = async () => {
   showMessage();
