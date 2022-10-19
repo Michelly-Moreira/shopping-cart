@@ -4,7 +4,7 @@
 const carShopping = document.querySelector('.cart__items'); // carrinho
 const buttonRemove = document.querySelector('.empty-cart'); // botão esvaziar carrinho
 
-const resultProducts = async () => {
+const resultProducts = async () => { // chamando uma função assíncrona
   const getProducts = await fetchProducts('computador');
   const { results } = getProducts;
   // console.log(results);
@@ -36,6 +36,18 @@ const createCustomElement = (element, className, innerText) => {
   e.className = className;
   e.innerText = innerText;
   return e;
+};
+
+const showMessage = () => { // mensagem de carregamento enquanto a pagina carrega
+  const allProducts = document.querySelector('.items');
+  const message = document.createElement('span');
+  message.className = 'loading';
+  message.innerHTML = 'carregando...';
+  allProducts.appendChild(message);
+
+    setTimeout(() => {
+      message.remove();
+    }, 1000);
 };
 
 /**
@@ -86,7 +98,7 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  */
 
 const cartItemClickListener = (event) => {
-  event.target.remove(); // removendo item quando clica no item dentro do carrinho.
+  event.target.remove(); // remove produto quando clica no item dentro do carrinho.
 };
 
 const createCartItemElement = ({ id, title, price }) => {
@@ -95,7 +107,8 @@ const createCartItemElement = ({ id, title, price }) => {
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
   // return li; 
-  carShopping.appendChild(li);
+  li.price = price;
+  carShopping.appendChild(li);// criando a lista ao carrinho
   return { id, title, price };
 };
 
@@ -107,15 +120,17 @@ const addElement = () => {
     button.addEventListener('click', async (event) => {
       const selectedItem = event.target.parentNode.firstChild.innerText;// alvo no item clicado de acordo com as classes do item
       const itemList = await fetchItem(selectedItem);// lista que mostra o item de acordo com o id;
-      const itemObject = createCartItemElement(itemList);
 
-      savedItem.push(itemObject);
-      saveCartItems(savedItem);
+      const itemObject = createCartItemElement(itemList);// item que será adicionado ao carrinho
+      // console.log(itemObject);
+
+      savedItem.push(itemObject);// salvando o objeto em um Array
+      saveCartItems(savedItem);// saveCartItems, está em outro arquivo, salvando no local storage
     });
   });
 };
 
-function savedItensLocalStorage() {
+function savedItensLocalStorage() { // permite salvar na tela mesmo depois da página ser atualizada
   if (localStorage.length !== 0) {
     const getLocalStorage = getSavedCartItems();// recupera o que estiver salvo no localStorage
     const objItem = JSON.parse(getLocalStorage);
@@ -127,15 +142,28 @@ function savedItensLocalStorage() {
   }
 }
 
-const allRemoveItem = () => { // remove todos os itens do carrinho.
-  while (carShopping.hasChildNodes()) {
-    carShopping.removeChild(carShopping.firstChild);
+const allRemoveItem = () => { // função remove todos os itens do carrinho.
+  while (carShopping.hasChildNodes()) { // se true, (ocorre quando a ol carShopping tem filho)
+    carShopping.removeChild(carShopping.firstChild); // remove a lista, que é o primeiro filho do carShopping
   }
 };
-buttonRemove.addEventListener('click', (allRemoveItem));
+buttonRemove.addEventListener('click', (allRemoveItem)); // quando clica no botão esvaziar carrinho, faz o que a função allRemoveItem manda
+
+const totalValue = () => { // QUESITO 9 SOMA TOTAL, NÃO FUNCIONA.
+const car = document.querySelector('.cart__items');
+const value = document.createElement('span');
+value.className = 'total-price';
+let allValue = 0;
+car.forEach((oneProduct) => {
+allValue += oneProduct;
+});
+value.innerText = allValue;
+};
 
 window.onload = async () => {
+  showMessage();
   await createItem();
   addElement();
   savedItensLocalStorage();
+  totalValue();
 };
