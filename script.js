@@ -85,12 +85,35 @@ const createItem = async () => {
   * @param {string} product.price - Preço do produto.
   * @returns {Element} Elemento de um item do carrinho.
   */
+  const totalValue = () => { // soma todos os valores do carrinho
+    const car = document.querySelectorAll('.cart__item');
+    // const carP = document.querySelector('.cart__items');
+  const value = document.querySelector('.total-price');
+  
+    let allValue = 0;
+    // carP.appendChild(value);
+  
+    car.forEach((oneProduct) => {
+    const itemPrice = Number(oneProduct.innerText.split('$')[1]);
+    allValue += itemPrice;
+    });
+    value.innerHTML = `TOTAL GERAL R$ ${allValue}`;
+    // console.log(value);
+    };
 
   const buttonRemove = document.querySelector('.empty-cart'); // botão esvaziar carrinho
 // carShopping.remove(); // remove todos os itens do carrinho.
 
 const cartItemClickListener = (event) => {
-  event.target.remove(); // removendo item quando clica no item dentro do carrinho.
+  event.target.remove(); // remove o produto quando clica no item dentro do carrinho.
+  // console.log(event.target);
+ const recover = getSavedCartItems();// recuperando o item salvo
+ const objSalve = JSON.parse(recover);// transformando o item salvo em obj, pois é salvo como string
+ const newlocal = objSalve.filter((productSelect) => event.target
+  .innerText.split(' ')[1] !== productSelect.id);
+
+ localStorage.setItem('cartItems', JSON.stringify(newlocal));
+totalValue();
 };
 
 const carShopping = document.querySelector('.cart__items'); // carrinho
@@ -118,6 +141,7 @@ const addElement = () => {
 
       savedItem.push(itemObject);
       saveCartItems(savedItem);
+      totalValue();
     });
   });
 };
@@ -138,6 +162,8 @@ const allRemoveItem = () => { // função remove todos os itens do carrinho.
   while (carShopping.hasChildNodes()) { // se true, (ocorre quando a ol carShopping tem filho)
     carShopping.removeChild(carShopping.firstChild); // remove a lista, que é o primeiro filho do carShopping
   }
+  saveCartItems([]);
+  totalValue();
 };
 buttonRemove.addEventListener('click', (allRemoveItem)); // quando clica no botão esvaziar carrinho, faz o que a função allRemoveItem manda
 
@@ -158,6 +184,7 @@ window.onload = async () => {
   await createItem();
   addElement();
   savedItensLocalStorage();
+  totalValue();
 };
 /*
 const totalValue = () => { // QUESITO 9 SOMA TOTAL, NÃO FUNCIONA.
